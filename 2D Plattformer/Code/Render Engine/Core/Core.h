@@ -3,8 +3,13 @@
 
 #include <map>
 #include <string>
+#include <vector>
+
 #include "Directx11Includes.h"
+
 #include "..\Definitions\Texture.h"
+#include "..\Definitions\RenderRequest.h"
+
 #include "..\\Shaders\Shader.h"
 
 namespace Renderer
@@ -38,6 +43,8 @@ namespace Renderer
 
 		class Buffer;
 		static Buffer vertexPoint;
+
+		static std::vector<RenderRequest> renderRequests;
 
 		static void Flush();
 

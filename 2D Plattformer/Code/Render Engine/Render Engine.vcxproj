@@ -161,6 +161,7 @@
     <ClInclude Include="Core\Core.h" />
     <ClInclude Include="Core\Directx11Includes.h" />
     <ClInclude Include="Definitions\GraphicalDefinitions.h" />
+    <ClInclude Include="Definitions\RenderRequest.h" />
     <ClInclude Include="Definitions\Texture.h" />
     <ClInclude Include="Renderer_API.h" />
     <ClInclude Include="Shaders\Shader.h" />

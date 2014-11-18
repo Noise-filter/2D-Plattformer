@@ -18,8 +18,8 @@ namespace Renderer
 
 		ID3D11ShaderResourceView *const* GetTexture();
 
-		ID3D11ShaderResourceView* texture;
 	private:
+		ID3D11ShaderResourceView* texture;
 
 	};
 }

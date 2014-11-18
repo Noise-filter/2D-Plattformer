@@ -29,6 +29,8 @@ Shader<ID3D11PixelShader*> Core::pixelShader;
 
 Core::Buffer Core::vertexPoint;
 
+std::vector<RenderRequest> Core::renderRequests;
+
 void Core::Flush()
 {
 	swapChain->SetFullscreenState(FALSE, NULL);

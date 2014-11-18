@@ -30,7 +30,7 @@ namespace Renderer
 
 		static Definitions::TextureInstance* CreateTexture(std::wstring filename);
 
-		static void RenderSprite(const Definitions::TextureInstance* sprite);
+		static void Render(const Definitions::TextureInstance* sprite);
 
 		static void SetOptions();
 

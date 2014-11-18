@@ -11,6 +11,8 @@ const bool fullscreen = false;
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 bool Render();
 
+Renderer::Definitions::TextureInstance* test;
+
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
 {
 	if (SetDllDirectory(L"..\\DLL") == FALSE)
@@ -55,8 +57,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		return 0;
 	}
 
-	API::CreateTexture(L"..\\Content\\test.dds");
-	API::CreateTexture(L"..\\Content\\test.dds");
+	test = API::CreateTexture(L"..\\Content\\test.dds");
 
 	MSG msg;
 	while (true)
@@ -83,8 +84,12 @@ bool Render()
 {
 	API::BeginFrame();
 
-	API::RenderScene();
+	for (int i = 0; i < 1; i++)
+	{
+		API::Render(test);
+	}
 
+	API::RenderScene();
 	return API::EndFrame();
 }
 

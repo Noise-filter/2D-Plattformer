@@ -126,11 +126,18 @@ bool API::EndFrame()
 
 void API::RenderScene()
 {
-	//ID3D11ShaderResourceView* asd = Core::textures.begin()->second->texture;
-
+	//Apply a single vertex point
+	//The rectangle will be created in a geometry shader
 	Core::vertexPoint.Apply();
-	Core::deviceContext->PSSetShaderResources(0, 1, &Core::textures.begin()->second->texture);
-	Core::deviceContext->Draw(1, 0);
+	
+	//Render all 'RenderRequests'
+	for each(RenderRequest request in Core::renderRequests)
+	{
+		Core::deviceContext->PSSetShaderResources(0, 1, request.texture->GetTexture());
+		Core::deviceContext->Draw(1, 0);
+	}
+
+	Core::renderRequests.clear();
 }
 
 TextureInstance* API::CreateTexture(std::wstring filename)
@@ -158,6 +165,15 @@ TextureInstance* API::CreateTexture(std::wstring filename)
 	tex->texture = (Renderer::Definitions::TextureInstance::Texture*)t;
 	
 	return tex;
+}
+
+void API::Render(const Definitions::TextureInstance* sprite)
+{
+	RenderRequest r;
+	r.texture = (Texture*)sprite->texture;
+	r.world = sprite->world;
+
+	Core::renderRequests.push_back(r);
 }
 
 void API::SetOptions()
