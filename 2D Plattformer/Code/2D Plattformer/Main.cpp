@@ -1,9 +1,15 @@
 #include <Windows.h>
 
+#include "..\Render Engine\Renderer_API.h"
+
+using namespace Renderer;
+
 const unsigned int SCREEN_WIDTH = 1024;
 const unsigned int SCREEN_HEIGHT = 768;
+const bool fullscreen = false;
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+bool Render();
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
 {
@@ -44,6 +50,13 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 	ShowWindow(hWnd, nCmdShow);
 
+	if (!API::Init(hWnd, SCREEN_WIDTH, SCREEN_HEIGHT, fullscreen))
+	{
+		return 0;
+	}
+
+	API::CreateTexture(L"..\\Content\\test.dds");
+	API::CreateTexture(L"..\\Content\\test.dds");
 
 	MSG msg;
 	while (true)
@@ -58,21 +71,44 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		}
 
 		//Update(1.0f);
-		//Render();
+		Render();
 	}
+
+	API::Flush();
 
 	return 0;
 }
+
+bool Render()
+{
+	API::BeginFrame();
+
+	API::RenderScene();
+
+	return API::EndFrame();
+}
+
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
 	{
-	case WM_DESTROY:
-	{
-					   PostQuitMessage(0);
-					   return 0;
-	} break;
+		case WM_KEYDOWN:
+		{
+			switch (wParam)
+			{
+			case VK_ESCAPE:
+				PostQuitMessage(0);
+				break;
+			}
+			break;
+		}
 
+		case WM_DESTROY:
+		{
+			PostQuitMessage(0);
+			return 0;
+			break;
+		}
 	}
 
 	return DefWindowProc(hWnd, message, wParam, lParam);
