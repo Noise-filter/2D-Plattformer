@@ -57,6 +57,7 @@ bool API::Init(HWND hwnd, unsigned int width, unsigned int height, bool fullscre
 		return false;
 	}
 
+	//Create vertex buffer
 	Point initData[1];
 	initData[0].pos = DirectX::XMFLOAT2(0.0f, 0.0f);
 
@@ -68,6 +69,32 @@ bool API::Init(HWND hwnd, unsigned int width, unsigned int height, bool fullscre
 	initDesc.InitData = (void*)initData;
 
 	if (FAILED(Core::vertexPoint.Init(initDesc)))
+	{
+		return false;
+	}
+
+	//Create constant buffer
+	//Only including a 4x4 matrix right now
+	Core::Buffer::BUFFER_INIT_DESC constInitDesc;
+	constInitDesc.NumElements = 1;
+	//constInitDesc.InitData = NULL;
+	constInitDesc.ElementSize = sizeof(DirectX::XMFLOAT4X4);
+	constInitDesc.Type = Core::Buffer::CONSTANT_BUFFER_GS;
+	constInitDesc.Usage = Core::Buffer::BUFFER_CPU_WRITE_DISCARD;
+
+	if (FAILED(Core::constantBufferEveryObject.Init(constInitDesc)))
+	{
+		return false;
+	}
+
+	//Create constant buffer for view and proj matrix
+	constInitDesc.NumElements = 1;
+	//constInitDesc.InitData = NULL;
+	constInitDesc.ElementSize = sizeof(DirectX::XMFLOAT4X4) * 2;
+	constInitDesc.Type = Core::Buffer::CONSTANT_BUFFER_GS;
+	constInitDesc.Usage = Core::Buffer::BUFFER_CPU_WRITE_DISCARD;
+
+	if (FAILED(Core::constantBufferEveryFrame.Init(constInitDesc)))
 	{
 		return false;
 	}
@@ -126,6 +153,24 @@ bool API::EndFrame()
 
 void API::RenderScene()
 {
+	//DirectX::XMFLOAT4X4 m;
+	//Map constant buffer with view and projection matrix
+	void* res = Core::constantBufferEveryFrame.Map();
+
+	struct
+	{
+		DirectX::XMFLOAT4X4 view;
+		DirectX::XMFLOAT4X4 proj;
+	}m;
+	
+	DirectX::XMStoreFloat4x4(&m.view, Core::viewMatrix);
+	DirectX::XMStoreFloat4x4(&m.proj, Core::projMatrix);
+	memcpy(res, &m, sizeof(m));
+
+	Core::constantBufferEveryFrame.Unmap();
+
+	Core::constantBufferEveryFrame.Apply(1);
+
 	//Apply a single vertex point
 	//The rectangle will be created in a geometry shader
 	Core::vertexPoint.Apply();
@@ -133,6 +178,12 @@ void API::RenderScene()
 	//Render all 'RenderRequests'
 	for each(RenderRequest request in Core::renderRequests)
 	{
+		//Map data to the buffer
+		res = Core::constantBufferEveryObject.Map();
+		memcpy(res, request.world.m, sizeof(DirectX::XMFLOAT4X4));
+		Core::constantBufferEveryObject.Unmap();
+
+		Core::constantBufferEveryObject.Apply(0);
 		Core::deviceContext->PSSetShaderResources(0, 1, request.texture->GetTexture());
 		Core::deviceContext->Draw(1, 0);
 	}

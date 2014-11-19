@@ -6,11 +6,13 @@ struct VertexIn
 cbuffer EveryObject2D : register(b0)
 {
 	float4x4 translation;
+	//float4 color;
 };
 
-cbuffer ColorData : register(b0)
+cbuffer EveryFrame : register(b1)
 {
-	float4 color;
+	float4x4 view;
+	float4x4 proj;
 };
 
 struct PixelIn

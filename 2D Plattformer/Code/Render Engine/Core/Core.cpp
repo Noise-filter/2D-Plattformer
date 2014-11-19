@@ -28,6 +28,8 @@ Shader<ID3D11GeometryShader*> Core::geometryShader;
 Shader<ID3D11PixelShader*> Core::pixelShader;
 
 Core::Buffer Core::vertexPoint;
+Core::Buffer Core::constantBufferEveryObject;
+Core::Buffer Core::constantBufferEveryFrame;
 
 std::vector<RenderRequest> Core::renderRequests;
 

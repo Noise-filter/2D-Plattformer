@@ -21,34 +21,34 @@ HRESULT Core::Buffer::Apply(UINT32 misc) const
 	{
 	case VERTEX_BUFFER:
 	{
-						  UINT32 vertexSize = mElementSize;
-						  UINT32 offset = 0;
-						  Core::deviceContext->IASetVertexBuffers(misc, 1, &mBuffer, &vertexSize, &offset);
+		UINT32 vertexSize = mElementSize;
+		UINT32 offset = 0;
+		Core::deviceContext->IASetVertexBuffers(misc, 1, &mBuffer, &vertexSize, &offset);
 	}
 		break;
 	case INDEX_BUFFER:
 	{
-						 Core::deviceContext->IASetIndexBuffer(mBuffer, DXGI_FORMAT_R32_UINT, 0);
+		Core::deviceContext->IASetIndexBuffer(mBuffer, DXGI_FORMAT_R32_UINT, 0);
 	}
 		break;
 	case CONSTANT_BUFFER_VS:
 	{
-							   Core::deviceContext->VSSetConstantBuffers(misc, 1, &mBuffer);
+		Core::deviceContext->VSSetConstantBuffers(misc, 1, &mBuffer);
 	}
 		break;
 	case CONSTANT_BUFFER_GS:
 	{
-							   Core::deviceContext->GSSetConstantBuffers(misc, 1, &mBuffer);
+		Core::deviceContext->GSSetConstantBuffers(misc, 1, &mBuffer);
 	}
 		break;
 	case CONSTANT_BUFFER_PS:
 	{
-							   Core::deviceContext->PSSetConstantBuffers(misc, 1, &mBuffer);
+		Core::deviceContext->PSSetConstantBuffers(misc, 1, &mBuffer);
 	}
 		break;
 	case CONSTANT_BUFFER_CS:
 	{
-							   Core::deviceContext->CSSetConstantBuffers(misc, 1, &mBuffer);
+		Core::deviceContext->CSSetConstantBuffers(misc, 1, &mBuffer);
 	}
 		break;
 	default:
@@ -68,20 +68,20 @@ HRESULT Core::Buffer::Init(const BUFFER_INIT_DESC& initDesc)
 	{
 	case VERTEX_BUFFER:
 	{
-						  bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+		bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 
-						  if (initDesc.Usage == BUFFER_STREAM_OUT_TARGET)
-							  bufferDesc.BindFlags |= D3D11_BIND_STREAM_OUTPUT;
+		if (initDesc.Usage == BUFFER_STREAM_OUT_TARGET)
+			bufferDesc.BindFlags |= D3D11_BIND_STREAM_OUTPUT;
 	}
 		break;
 	case INDEX_BUFFER:
 	{
-						 bufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
+		bufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
 	}
 		break;
 	case STRUCTURED_BUFFER:
 	{
-							  bufferDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+		bufferDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
 	}
 		break;
 	case CONSTANT_BUFFER_CS:
@@ -89,7 +89,7 @@ HRESULT Core::Buffer::Init(const BUFFER_INIT_DESC& initDesc)
 	case CONSTANT_BUFFER_GS:
 	case CONSTANT_BUFFER_PS:
 	{
-							   bufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+		bufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	}
 		break;
 	default:

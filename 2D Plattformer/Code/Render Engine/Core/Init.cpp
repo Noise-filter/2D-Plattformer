@@ -140,11 +140,11 @@ void Core::Init::SetDefaultMatrix()
 	DirectX::XMVECTOR at;
 	DirectX::XMVECTOR up;
 
-	eye = DirectX::XMVectorSet(0, 0, 0, 0);
-	at = DirectX::XMVectorSet(0, 0, 1, 0);
+	eye = DirectX::XMVectorSet(0, 0, -100, 0);
+	at = DirectX::XMVectorSet(0, 0, 0, 0);
 	up = DirectX::XMVectorSet(0, 1, 0, 0);
 
 	Core::viewMatrix = DirectX::XMMatrixLookAtLH(eye, at, up);
 
-	DirectX::XMMatrixPerspectiveFovLH(DirectX::XM_PI * 0.45f, (float)(Core::resolution.x / Core::resolution.y), 0.01f, 1000.0f);
+	projMatrix = DirectX::XMMatrixPerspectiveFovLH(DirectX::XM_PI * 0.45f, (float)(Core::resolution.x / Core::resolution.y), 0.01f, 1000.0f);
 }

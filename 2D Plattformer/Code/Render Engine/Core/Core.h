@@ -43,6 +43,8 @@ namespace Renderer
 
 		class Buffer;
 		static Buffer vertexPoint;
+		static Buffer constantBufferEveryObject;
+		static Buffer constantBufferEveryFrame;
 
 		static std::vector<RenderRequest> renderRequests;
 
