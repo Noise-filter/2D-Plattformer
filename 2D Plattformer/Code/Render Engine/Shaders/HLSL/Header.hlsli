@@ -1,6 +1,8 @@
 struct VertexIn
 {
-	float2 pos : Position;
+	float4 pos : SV_POSITION;
+	float3 normal : NORMAL;
+	float2 tex : UV;
 };
 
 cbuffer EveryObject2D : register(b0)

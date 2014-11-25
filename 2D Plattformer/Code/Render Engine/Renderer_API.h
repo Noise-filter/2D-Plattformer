@@ -19,6 +19,7 @@ namespace Renderer
 		static bool Init(HWND hwnd, unsigned int width, unsigned int height, bool fullscreen);
 		static void Flush();
 
+		static void SetView(float eye[3], float at[3], float up[3]);
 		static void SetView(float m[16]);
 		static void SetProjection(float fov, float aspect, float nearZ, float farZ);
 		static void SetProjection(float m[16]);

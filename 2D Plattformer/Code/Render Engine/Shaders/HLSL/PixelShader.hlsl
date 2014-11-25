@@ -1,6 +1,6 @@
 #include "Header.hlsli"
 
-float4 main(PixelIn input) : SV_Target
+float4 main(VertexIn input) : SV_Target
 {
 	return Texture.Sample(LinearSampler, input.tex);
 
