@@ -140,8 +140,8 @@ void Core::Init::SetDefaultMatrix()
 	DirectX::XMVECTOR at;
 	DirectX::XMVECTOR up;
 
-	eye = DirectX::XMVectorSet(0, 0, -5, 0);
-	at = DirectX::XMVectorSet(0, 0, 1, 0);
+	eye = DirectX::XMVectorSet(0, 0, -1, 0);
+	at = DirectX::XMVectorSet(0, 0, 10, 0);
 	up = DirectX::XMVectorSet(0, 1, 0, 0);
 
 	Core::viewMatrix = DirectX::XMMatrixLookAtLH(eye, at, up);

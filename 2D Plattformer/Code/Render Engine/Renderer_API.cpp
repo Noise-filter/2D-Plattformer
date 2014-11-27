@@ -36,9 +36,17 @@ bool API::Init(HWND hwnd, unsigned int width, unsigned int height, bool fullscre
 		{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 16, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 		{ "UV", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 32, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 	};
+	D3D11_INPUT_ELEMENT_DESC layout2[] =
+	{
+		{ "POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+	};
 
 	//Load shaders
 	if (!Core::vertexShader.Load(Core::device, L"..\\Content\\Shaders\\VertexShader.cso"))
+	{
+		return false;
+	}
+	if (!Core::vertexShader2.Load(Core::device, L"..\\Content\\Shaders\\VertexShader2.cso"))
 	{
 		return false;
 	}
@@ -54,6 +62,10 @@ bool API::Init(HWND hwnd, unsigned int width, unsigned int height, bool fullscre
 	}
 
 	if (FAILED(Core::device->CreateInputLayout(layout, 3, Core::vertexShader.GetShaderBinaryData(), Core::vertexShader.GetShaderBinarySize(), &Core::inputLayout)))
+	{
+		return false;
+	}
+	if (FAILED(Core::device->CreateInputLayout(layout2, 1, Core::vertexShader2.GetShaderBinaryData(), Core::vertexShader2.GetShaderBinarySize(), &Core::inputLayout2)))
 	{
 		return false;
 	}
@@ -89,6 +101,20 @@ bool API::Init(HWND hwnd, unsigned int width, unsigned int height, bool fullscre
 	initDesc.InitData = (void*)initData;
 
 	if (FAILED(Core::vertexPoint.Init(initDesc)))
+	{
+		return false;
+	}
+
+	DirectX::XMFLOAT4 initData2[1];
+	initData[0].pos = DirectX::XMFLOAT4(-0.5f, -0.5f, 0.0f, 1.0f);
+
+	initDesc.NumElements = 1;
+	initDesc.Type = Core::Buffer::VERTEX_BUFFER;
+	initDesc.Usage = Core::Buffer::BUFFER_DEFAULT;
+	initDesc.ElementSize = sizeof(DirectX::XMFLOAT4);
+	initDesc.InitData = (void*)initData;
+
+	if (FAILED(Core::vertexPoint2.Init(initDesc)))
 	{
 		return false;
 	}

@@ -5,6 +5,11 @@ struct VertexIn
 	float2 tex : UV;
 };
 
+struct VertexInPos
+{
+	float4 pos : POSITION2;
+};
+
 cbuffer EveryObject2D : register(b0)
 {
 	float4x4 translation;

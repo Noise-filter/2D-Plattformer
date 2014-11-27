@@ -36,13 +36,16 @@ namespace Renderer
 		static std::map<std::wstring, Texture*> textures;
 
 		static ID3D11InputLayout* inputLayout;
+		static ID3D11InputLayout* inputLayout2;
 
 		static Shader<ID3D11VertexShader*> vertexShader;
+		static Shader<ID3D11VertexShader*> vertexShader2;
 		static Shader<ID3D11GeometryShader*> geometryShader;
 		static Shader<ID3D11PixelShader*> pixelShader;
 
 		class Buffer;
 		static Buffer vertexPoint;
+		static Buffer vertexPoint2;
 		static Buffer constantBufferEveryObject;
 		static Buffer constantBufferEveryFrame;
 
