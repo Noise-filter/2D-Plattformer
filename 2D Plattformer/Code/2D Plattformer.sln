@@ -42,6 +42,7 @@ Global
 		{EDC5521A-EA0F-420B-8AB8-2B04D939FB4B}.Release|Win32.ActiveCfg = Release|Win32
 		{EDC5521A-EA0F-420B-8AB8-2B04D939FB4B}.Release|Win32.Build.0 = Release|Win32
 		{EDC5521A-EA0F-420B-8AB8-2B04D939FB4B}.Release|x64.ActiveCfg = Release|x64
+		{EDC5521A-EA0F-420B-8AB8-2B04D939FB4B}.Release|x64.Build.0 = Release|x64
 		{E0B52AE7-E160-4D32-BF3F-910B785E5A8E}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
 		{E0B52AE7-E160-4D32-BF3F-910B785E5A8E}.Debug|Mixed Platforms.Build.0 = Debug|Win32
 		{E0B52AE7-E160-4D32-BF3F-910B785E5A8E}.Debug|Win32.ActiveCfg = Debug|Win32

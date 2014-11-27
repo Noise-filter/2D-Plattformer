@@ -10,6 +10,7 @@ const bool fullscreen = false;
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 bool Render();
+void Update(float dt);
 
 Renderer::Definitions::TextureInstance* test;
 
@@ -58,8 +59,19 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	}
 
 	test = API::CreateTexture(L"..\\Content\\test.dds");
+	DirectX::XMMATRIX mTest = DirectX::XMMatrixTranslation(0.0f, 0.0f, -4.0f);
+	mTest = DirectX::XMMatrixTranspose(mTest);
+
 	DirectX::XMStoreFloat4x4(&test->world, DirectX::XMMatrixIdentity());
-	DirectX::XMStoreFloat4x4(&test->world, DirectX::XMMatrixTranslation(0.0f, 0.0f, 0.0f));
+	DirectX::XMStoreFloat4x4(&test->world, mTest);
+
+	__int64 cntsPerSec = 0;
+	QueryPerformanceFrequency((LARGE_INTEGER*)&cntsPerSec);
+	float secsPerCnt = 1.0f / (float)cntsPerSec;
+
+	__int64 prevTimeStamp = 0;
+	QueryPerformanceCounter((LARGE_INTEGER*)&prevTimeStamp);
+
 
 	MSG msg;
 	while (true)
@@ -73,8 +85,18 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 			DispatchMessage(&msg);
 		}
 
-		//Update(1.0f);
+		__int64 currTimeStamp = 0;
+		QueryPerformanceCounter((LARGE_INTEGER*)&currTimeStamp);
+		float dt = (currTimeStamp - prevTimeStamp) * secsPerCnt;
+		wchar_t fps[25];
+		float fps2 = 1 / dt;
+		swprintf(fps, sizeof(fps), L"%f", fps2);
+
+		SetWindowText(hWnd, fps);
+		Update(dt);
 		Render();
+
+		prevTimeStamp = currTimeStamp;
 	}
 
 	API::Flush();
@@ -82,11 +104,16 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	return 0;
 }
 
+void Update(float dt)
+{
+	
+}
+
 bool Render()
 {
 	API::BeginFrame();
 
-	for (int i = 0; i < 1; i++)
+	for (int i = 0; i < 10000; i++)
 	{
 		API::Render(test);
 	}

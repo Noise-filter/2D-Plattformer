@@ -9,7 +9,7 @@ VertexIn main(VertexIn input)
 
 	output.pos = mul(output.pos, translation);
 	output.pos = mul(output.pos, view);
-	//output.pos = mul(output.pos, proj);
+	output.pos = mul(output.pos, proj);
 
 	return output;
 }

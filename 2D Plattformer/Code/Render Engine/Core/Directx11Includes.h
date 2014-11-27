@@ -8,10 +8,10 @@
 
 #pragma comment(lib, "d3d11.lib")
 
-#ifdef _DEBUG
+//#ifdef _DEBUG
 #include <d3dcompiler.h>
 #pragma comment(lib, "d3dcompiler.lib")
-#endif
+//#endif
 
 #define SAFE_RELEASE(x) if(x) { (x)->Release(); (x) = NULL; }
 #define SAFE_DELETE(x) if(x) { delete (x); (x) = NULL; }
