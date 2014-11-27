@@ -145,11 +145,9 @@ void Core::Init::SetDefaultMatrix()
 	up = DirectX::XMVectorSet(0, 1, 0, 0);
 
 	Core::viewMatrix = DirectX::XMMatrixLookAtLH(eye, at, up);
-
 	Core::viewMatrix = DirectX::XMMatrixTranspose(Core::viewMatrix);
 
 	Core::projMatrix = DirectX::XMMatrixPerspectiveFovLH(DirectX::XM_PI * 0.45f, (float)(Core::resolution.x) / (float)(Core::resolution.y), 0.01f, 1000.0f);
-
 	Core::projMatrix = DirectX::XMMatrixTranspose(Core::projMatrix);
 
 

@@ -32,21 +32,11 @@ bool API::Init(HWND hwnd, unsigned int width, unsigned int height, bool fullscre
 
 	D3D11_INPUT_ELEMENT_DESC layout[] =
 	{
-		{ "SV_POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 16, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "UV", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 32, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-	};
-	D3D11_INPUT_ELEMENT_DESC layout2[] =
-	{
 		{ "POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 	};
 
 	//Load shaders
 	if (!Core::vertexShader.Load(Core::device, L"..\\Content\\Shaders\\VertexShader.cso"))
-	{
-		return false;
-	}
-	if (!Core::vertexShader2.Load(Core::device, L"..\\Content\\Shaders\\VertexShader2.cso"))
 	{
 		return false;
 	}
@@ -61,60 +51,23 @@ bool API::Init(HWND hwnd, unsigned int width, unsigned int height, bool fullscre
 		return false;
 	}
 
-	if (FAILED(Core::device->CreateInputLayout(layout, 3, Core::vertexShader.GetShaderBinaryData(), Core::vertexShader.GetShaderBinarySize(), &Core::inputLayout)))
-	{
-		return false;
-	}
-	if (FAILED(Core::device->CreateInputLayout(layout2, 1, Core::vertexShader2.GetShaderBinaryData(), Core::vertexShader2.GetShaderBinarySize(), &Core::inputLayout2)))
+	if (FAILED(Core::device->CreateInputLayout(layout, 1, Core::vertexShader.GetShaderBinaryData(), Core::vertexShader.GetShaderBinarySize(), &Core::inputLayout)))
 	{
 		return false;
 	}
 
 	//Create vertex buffer
-	Vertex initData[6];
-	initData[0].pos = DirectX::XMFLOAT4(-0.5f, -0.5f, 0.0f, 1.0f);
-	initData[1].pos = DirectX::XMFLOAT4(-0.5f, 0.5f, 0.0f, 1.0f);
-	initData[2].pos = DirectX::XMFLOAT4(0.5f, -0.5f, 0.0f, 1.0f);
-	initData[3].pos = DirectX::XMFLOAT4(0.5f, -0.5f, 0.0f, 1.0f);
-	initData[4].pos = DirectX::XMFLOAT4(-0.5f, 0.5f, 0.0f, 1.0f);
-	initData[5].pos = DirectX::XMFLOAT4(0.5f, 0.5f, 0.0f, 1.0f);
-
-	initData[0].normal = DirectX::XMFLOAT3(0.0f, 0.0f, 1.0f);
-	initData[1].normal = DirectX::XMFLOAT3(0.0f, 0.0f, 1.0f);
-	initData[2].normal = DirectX::XMFLOAT3(0.0f, 0.0f, 1.0f);
-	initData[3].normal = DirectX::XMFLOAT3(0.0f, 0.0f, 1.0f);
-	initData[4].normal = DirectX::XMFLOAT3(0.0f, 0.0f, 1.0f);
-	initData[5].normal = DirectX::XMFLOAT3(0.0f, 0.0f, 1.0f);
-
-	initData[0].tex = DirectX::XMFLOAT2(0.0f, 0.0f);
-	initData[1].tex = DirectX::XMFLOAT2(0.0f, 1.0f);
-	initData[2].tex = DirectX::XMFLOAT2(1.0f, 0.0f);
-	initData[3].tex = DirectX::XMFLOAT2(1.0f, 0.0f);
-	initData[4].tex = DirectX::XMFLOAT2(0.0f, 1.0f);
-	initData[5].tex = DirectX::XMFLOAT2(1.0f, 1.0f);
+	DirectX::XMFLOAT4 initData[1];
+	initData[0] = DirectX::XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);
 
 	Core::Buffer::BUFFER_INIT_DESC initDesc;
-	initDesc.NumElements = 6;
-	initDesc.Type = Core::Buffer::VERTEX_BUFFER;
-	initDesc.Usage = Core::Buffer::BUFFER_DEFAULT;
-	initDesc.ElementSize = sizeof(Vertex);
-	initDesc.InitData = (void*)initData;
-
-	if (FAILED(Core::vertexPoint.Init(initDesc)))
-	{
-		return false;
-	}
-
-	DirectX::XMFLOAT4 initData2[1];
-	initData[0].pos = DirectX::XMFLOAT4(-0.5f, -0.5f, 0.0f, 1.0f);
-
 	initDesc.NumElements = 1;
 	initDesc.Type = Core::Buffer::VERTEX_BUFFER;
 	initDesc.Usage = Core::Buffer::BUFFER_DEFAULT;
 	initDesc.ElementSize = sizeof(DirectX::XMFLOAT4);
 	initDesc.InitData = (void*)initData;
 
-	if (FAILED(Core::vertexPoint2.Init(initDesc)))
+	if (FAILED(Core::vertexPoint.Init(initDesc)))
 	{
 		return false;
 	}
@@ -125,7 +78,7 @@ bool API::Init(HWND hwnd, unsigned int width, unsigned int height, bool fullscre
 	constInitDesc.NumElements = 1;
 	//constInitDesc.InitData = NULL;
 	constInitDesc.ElementSize = sizeof(DirectX::XMFLOAT4X4);
-	constInitDesc.Type = Core::Buffer::CONSTANT_BUFFER_VS;
+	constInitDesc.Type = Core::Buffer::CONSTANT_BUFFER_GS;
 	constInitDesc.Usage = Core::Buffer::BUFFER_CPU_WRITE_DISCARD;
 
 	if (FAILED(Core::constantBufferEveryObject.Init(constInitDesc)))
@@ -137,7 +90,7 @@ bool API::Init(HWND hwnd, unsigned int width, unsigned int height, bool fullscre
 	constInitDesc.NumElements = 1;
 	//constInitDesc.InitData = NULL;
 	constInitDesc.ElementSize = sizeof(DirectX::XMFLOAT4X4) * 2;
-	constInitDesc.Type = Core::Buffer::CONSTANT_BUFFER_VS;
+	constInitDesc.Type = Core::Buffer::CONSTANT_BUFFER_GS;
 	constInitDesc.Usage = Core::Buffer::BUFFER_CPU_WRITE_DISCARD;
 
 	if (FAILED(Core::constantBufferEveryFrame.Init(constInitDesc)))
@@ -194,11 +147,11 @@ void API::BeginFrame()
 	Core::deviceContext->ClearDepthStencilView(Core::depthStencil, D3D11_CLEAR_DEPTH, 1.0f, 0);
 
 	//set topology
-	Core::deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	Core::deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
 
 	//Set Shaders
 	Core::vertexShader.SetShader(Core::deviceContext);
-	//Core::geometryShader.SetShader(Core::deviceContext);
+	Core::geometryShader.SetShader(Core::deviceContext);
 	Core::pixelShader.SetShader(Core::deviceContext);
 }
 
@@ -248,7 +201,7 @@ void API::RenderScene()
 		Core::constantBufferEveryObject.Apply(0);
 
 		Core::deviceContext->PSSetShaderResources(0, 1, request.texture->GetTexture());
-		Core::deviceContext->Draw(6, 0);
+		Core::deviceContext->Draw(1, 0);
 	}
 
 	Core::renderRequests.clear();

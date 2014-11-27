@@ -22,15 +22,12 @@ DirectX::XMMATRIX Core::projMatrix;
 std::map<std::wstring, Texture*> Core::textures;
 
 ID3D11InputLayout* Core::inputLayout;
-ID3D11InputLayout* Core::inputLayout2;
 
 Shader<ID3D11VertexShader*> Core::vertexShader;
-Shader<ID3D11VertexShader*> Core::vertexShader2;
 Shader<ID3D11GeometryShader*> Core::geometryShader;
 Shader<ID3D11PixelShader*> Core::pixelShader;
 
 Core::Buffer Core::vertexPoint;
-Core::Buffer Core::vertexPoint2;
 Core::Buffer Core::constantBufferEveryObject;
 Core::Buffer Core::constantBufferEveryFrame;
 

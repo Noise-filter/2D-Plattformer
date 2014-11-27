@@ -55,10 +55,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Shaders\HLSL\VertexShader.hlsl" />
     <FxCompile Include="Shaders\HLSL\PixelShader.hlsl" />
     <FxCompile Include="Shaders\HLSL\GeometryShader.hlsl" />
-    <FxCompile Include="Shaders\HLSL\VertexShader2.hlsl" />
+    <FxCompile Include="Shaders\HLSL\VertexShader.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\HLSL\Header.hlsli" />

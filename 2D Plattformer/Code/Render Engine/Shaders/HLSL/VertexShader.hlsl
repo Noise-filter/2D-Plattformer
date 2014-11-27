@@ -1,15 +1,13 @@
 #include "Header.hlsli"
 
-VertexIn main(VertexIn input)
+VertexInPos main(float4 pos : POSITION) : SV_POSITION
 {
-	VertexIn output;
-	output.pos = input.pos;
-	output.normal = input.normal;
-	output.tex = input.tex;
+	VertexInPos output;
+	output.pos = pos;
 
-	output.pos = mul(output.pos, translation);
-	output.pos = mul(output.pos, view);
-	output.pos = mul(output.pos, proj);
+	//output.pos = mul(output.pos, translation);
+	//output.pos = mul(output.pos, view);
+	//output.pos = mul(output.pos, proj);
 
 	return output;
 }
