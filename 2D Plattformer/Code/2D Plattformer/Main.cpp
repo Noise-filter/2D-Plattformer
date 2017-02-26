@@ -59,7 +59,19 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	}
 
 	test = API::CreateTexture(L"..\\Content\\test.dds");
-	DirectX::XMMATRIX mTest = DirectX::XMMatrixTranslation(0.0f, 0.0f, 0.0f);
+
+	float screenX, screenY;
+	float cartX, cartY;
+
+	screenX = 0 + 300;
+	screenY = 0 + 450;
+
+	cartX = screenX - (SCREEN_WIDTH / 2);
+	cartY = -screenY + (SCREEN_HEIGHT / 2);
+	cartX /= SCREEN_WIDTH;
+	cartY /= SCREEN_HEIGHT;
+
+	DirectX::XMMATRIX mTest = DirectX::XMMatrixTranslation(cartX, cartY, 0.0f);
 	mTest = DirectX::XMMatrixTranspose(mTest);
 
 	DirectX::XMStoreFloat4x4(&test->world, DirectX::XMMatrixIdentity());
